@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Doctor</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f4f6f9;
+        }
+        .form-box {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 40px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+        .preview-img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+{% include 'navbar.html' %}
+
+<div class="container">
+    <div class="row justify-content-center">
+
+        <div class="col-md-6 form-box">
+
+            <h3 class="text-center mb-4">Edit Doctor</h3>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- Name -->
+                <div class="mb-3">
+                    <label>Name</label>
+                    <input type="text" name="name" class="form-control"
+                           value="{{ doctor.name }}" required>
+                </div>
+
+                <!-- Specialization / Field -->
+                <div class="mb-3">
+                    <label>Specialization</label>
+                    <input type="text" name="field" class="form-control"
+                           value="{{ doctor.field }}" required>
+                </div>
+
+                <!-- Experience -->
+                <div class="mb-3">
+                    <label>Experience</label>
+                    <input type="text" name="experience" class="form-control"
+                           value="{{ doctor.experience }}" required>
+                </div>
+
+                <!-- Qualification -->
+                <div class="mb-3">
+                    <label>Qualification</label>
+                    <input type="text" name="qualification" class="form-control"
+                           value="{{ doctor.qualification }}" required>
+                </div>
+
+                <!-- Existing Image -->
+                <div class="mb-3">
+                    <label>Current Image</label><br>
+
+                    {% if doctor.image %}
+                        <img src="{{ doctor.image.url }}" class="preview-img">
+                    {% else %}
+                        <p>No image uploaded</p>
+                    {% endif %}
+                </div>
+
+                <!-- Upload New Image -->
+                <div class="mb-3">
+                    <label>Change Image</label>
+                    <input type="file" name="image" class="form-control">
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-flex justify-content-between">
+                    <a href="/doctors/" class="btn btn-secondary">Back</a>
+                    <button type="submit" class="btn btn-success">Update Doctor</button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</body>
+</html>

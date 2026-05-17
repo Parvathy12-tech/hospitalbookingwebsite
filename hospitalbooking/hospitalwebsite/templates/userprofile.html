@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>User Profile</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    body {
+        background: #f4f6f9;
+        font-family: Arial;
+    }
+
+    .profile-card {
+        max-width: 700px;
+        margin: auto;
+        margin-top: 30px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        padding: 25px;
+        background: white;
+    }
+
+    .profile-title {
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .info p {
+        margin: 8px 0;
+        font-size: 16px;
+    }
+
+    .btn-area {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .table-box {
+        margin-top: 25px;
+    }
+</style>
+</head>
+
+<body>
+
+{% include 'navbar.html' %}
+
+<div style="padding-top: 80px;"></div>
+
+<div class="profile-card">
+
+    <h3 class="profile-title">User Profile</h3>
+
+    <!-- USER INFO (DYNAMIC) -->
+    <div class="info">
+        <p><strong>Name:</strong> {{ user.name }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Phone:</strong> {{ user.phone }}</p>
+        <p><strong>Address:</strong> {{ user.address }}</p>
+        <p><strong>DOB:</strong> {{ user.dob }}</p>
+        <p><strong>Gender:</strong> {{ user.gender }}</p>
+    </div>
+
+    <!-- BLOCK / UNBLOCK -->
+    <div class="btn-area">
+
+        {% if user.is_blocked %}
+            <a href="/unblock_user/{{ user.id }}/"
+               class="btn btn-success"
+               onclick="return confirm('Unblock this user?')">
+                Unblock
+            </a>
+        {% else %}
+            <a href="/block_user/{{ user.id }}/"
+               class="btn btn-danger"
+               onclick="return confirm('Block this user?')">
+                Block
+            </a>
+        {% endif %}
+
+       <a href="{% url 'user' %}" class="btn btn-secondary">Back</a>
+
+    </div>
+
+    <!-- APPOINTMENT HISTORY (STATIC NOW, CAN MAKE DYNAMIC LATER) -->
+    <div class="table-box">
+    <h5 class="mt-4">Appointment History</h5>
+
+    <table class="table table-bordered table-striped mt-2">
+
+        <thead class="table-primary">
+            <tr>
+                <th>Doctor</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        {% if appointments %}
+            {% for appt in appointments %}
+            <tr>
+                <td>{{ appt.doctors.name }}</td>
+                <td>{{ appt.appointment_date|date:"d M Y" }}</td>
+                <td>{{ appt.time_slot }}</td>
+                <td>
+                    {% if appt.status == "Completed" %}
+                        <span class="badge bg-success">Completed</span>
+                    {% elif appt.status == "Cancelled" %}
+                        <span class="badge bg-danger">Cancelled</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="4">No appointments found</td>
+            </tr>
+        {% endif %}
+
+        </tbody>
+
+    </table>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</body>
+</html>

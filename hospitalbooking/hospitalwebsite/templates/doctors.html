@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Doctors</title>
+    
+
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f4f6f9;
+        }
+
+        .doctor-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+        }
+    </style>
+
+</head>
+<body>
+ {% include 'navbar.html' %}
+
+<div class="container mt-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Doctors</h2>
+        <a href="/add_doctors/" class="btn btn-primary btn-sm">Add Doctor</a>
+
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped text-center align-middle">
+            
+            <thead class="table-dark">
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    
+                    <th>Specialization</th>
+                    <th>Experience</th>
+                    <th>Qualification</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+{% for doctor in doctors %}
+<tr>
+    <td>
+        {% if doctor.image %}
+            <img src="{{ doctor.image.url }}" class="doctor-img rounded-circle">
+        {% else %}
+            <img src="https://via.placeholder.com/60" class="doctor-img rounded-circle">
+        {% endif %}
+    </td>
+
+    <td>{{ doctor.name }}</td>
+
+    <td>{{ doctor.field }}</td>
+    <td>{{ doctor.experience }}</td>
+    <td>{{ doctor.qualification }}</td>
+
+    <td>
+        <a href="/edit_doctor/{{ doctor.id }}/" class="btn btn-warning btn-sm">Edit</a>
+        <a href="/delete_doctor/{{ doctor.id }}/"
+   class="btn btn-danger btn-sm"
+   onclick="return confirm('Delete this doctor?')">
+   Delete
+</a>
+    </td>
+</tr>
+{% endfor %}
+
+</tbody>
+
+        </table>
+    </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</body>
+</html>
